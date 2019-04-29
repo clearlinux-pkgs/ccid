@@ -1,2 +1,2 @@
-mkdir -p %{buildroot}/usr/share/udev/rules.d/
-cp src/92_pcscd_ccid.rules %{buildroot}/usr/share/udev/rules.d/
+mkdir -p %{buildroot}/usr/lib/udev/rules.d/
+cp src/92_pcscd_ccid.rules %{buildroot}/usr/lib/udev/rules.d/
