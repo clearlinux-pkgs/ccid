@@ -6,13 +6,14 @@
 #
 Name     : ccid
 Version  : 1.4.30
-Release  : 2
+Release  : 3
 URL      : https://ccid.apdu.fr/files/ccid-1.4.30.tar.bz2
 Source0  : https://ccid.apdu.fr/files/ccid-1.4.30.tar.bz2
 Source99 : https://ccid.apdu.fr/files/ccid-1.4.30.tar.bz2.asc
 Summary  : A generic USB Chip/Smart Card Interface Devices driver
 Group    : Development/Tools
 License  : BSD-3-Clause LGPL-2.1
+Requires: ccid-data = %{version}-%{release}
 Requires: ccid-lib = %{version}-%{release}
 Requires: ccid-license = %{version}-%{release}
 BuildRequires : flex
@@ -28,9 +29,18 @@ Card Interface Devices) and ICCD (Integrated Circuit(s) Card Devices)
 driver. See the USB CCID [1] and ICCD [2] specifications from the USB
 working group.
 
+%package data
+Summary: data components for the ccid package.
+Group: Data
+
+%description data
+data components for the ccid package.
+
+
 %package lib
 Summary: lib components for the ccid package.
 Group: Libraries
+Requires: ccid-data = %{version}-%{release}
 Requires: ccid-license = %{version}-%{release}
 
 %description lib
@@ -53,7 +63,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1556551020
+export SOURCE_DATE_EPOCH=1556552841
 %configure --disable-static
 make  %{?_smp_mflags}
 
@@ -65,17 +75,25 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1556551020
+export SOURCE_DATE_EPOCH=1556552841
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/ccid
 cp COPYING %{buildroot}/usr/share/package-licenses/ccid/COPYING
 cp src/openct/LICENSE %{buildroot}/usr/share/package-licenses/ccid/src_openct_LICENSE
 cp src/towitoko/COPYING %{buildroot}/usr/share/package-licenses/ccid/src_towitoko_COPYING
 %make_install
+## install_append content
+mkdir -p %{buildroot}/usr/share/udev/rules.d/
+cp src/92_pcscd_ccid.rules %{buildroot}/usr/share/udev/rules.d/
+## install_append end
 
 %files
 %defattr(-,root,root,-)
 /usr/lib64/pcsc/drivers/ifd-ccid.bundle/Contents/Info.plist
+
+%files data
+%defattr(-,root,root,-)
+/usr/share/udev/rules.d/92_pcscd_ccid.rules
 
 %files lib
 %defattr(-,root,root,-)
