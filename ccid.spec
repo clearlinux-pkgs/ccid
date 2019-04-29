@@ -6,7 +6,7 @@
 #
 Name     : ccid
 Version  : 1.4.30
-Release  : 1
+Release  : 2
 URL      : https://ccid.apdu.fr/files/ccid-1.4.30.tar.bz2
 Source0  : https://ccid.apdu.fr/files/ccid-1.4.30.tar.bz2
 Source99 : https://ccid.apdu.fr/files/ccid-1.4.30.tar.bz2.asc
@@ -18,6 +18,7 @@ Requires: ccid-license = %{version}-%{release}
 BuildRequires : flex
 BuildRequires : pkgconfig(libpcsclite)
 BuildRequires : pkgconfig(libusb-1.0)
+BuildRequires : systemd-dev
 
 %description
 USB CCID IFD Handler
@@ -52,7 +53,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1556550599
+export SOURCE_DATE_EPOCH=1556551020
 %configure --disable-static
 make  %{?_smp_mflags}
 
@@ -64,7 +65,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1556550599
+export SOURCE_DATE_EPOCH=1556551020
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/ccid
 cp COPYING %{buildroot}/usr/share/package-licenses/ccid/COPYING
