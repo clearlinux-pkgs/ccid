@@ -5,12 +5,12 @@
 # Source0 file verified with key 0x78A1B4DFE8F9C57E (rousseau@debian.org)
 #
 Name     : ccid
-Version  : 1.4.30
-Release  : 4
-URL      : https://ccid.apdu.fr/files/ccid-1.4.30.tar.bz2
-Source0  : https://ccid.apdu.fr/files/ccid-1.4.30.tar.bz2
-Source99 : https://ccid.apdu.fr/files/ccid-1.4.30.tar.bz2.asc
-Summary  : A generic USB Chip/Smart Card Interface Devices driver
+Version  : 1.4.31
+Release  : 5
+URL      : https://ccid.apdu.fr/files/ccid-1.4.31.tar.bz2
+Source0  : https://ccid.apdu.fr/files/ccid-1.4.31.tar.bz2
+Source1  : https://ccid.apdu.fr/files/ccid-1.4.31.tar.bz2.asc
+Summary  : No detailed summary available
 Group    : Development/Tools
 License  : BSD-3-Clause LGPL-2.1
 Requires: ccid-config = %{version}-%{release}
@@ -22,12 +22,8 @@ BuildRequires : pkgconfig(libusb-1.0)
 BuildRequires : systemd-dev
 
 %description
-USB CCID IFD Handler
-====================
-This package provides the source code for a generic USB CCID (Chip/Smart
-Card Interface Devices) and ICCD (Integrated Circuit(s) Card Devices)
-driver. See the USB CCID [1] and ICCD [2] specifications from the USB
-working group.
+All the files in the src/protocol_t1/ directory comes from Carlos
+Prados Towitoko smartcard readers driver.
 
 %package config
 Summary: config components for the ccid package.
@@ -55,31 +51,37 @@ license components for the ccid package.
 
 
 %prep
-%setup -q -n ccid-1.4.30
+%setup -q -n ccid-1.4.31
+cd %{_builddir}/ccid-1.4.31
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1556552950
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1579286632
+export GCC_IGNORE_WERROR=1
+export CFLAGS="$CFLAGS -fno-lto "
+export FCFLAGS="$CFLAGS -fno-lto "
+export FFLAGS="$CFLAGS -fno-lto "
+export CXXFLAGS="$CXXFLAGS -fno-lto "
 %configure --disable-static
 make  %{?_smp_mflags}
 
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1556552950
+export SOURCE_DATE_EPOCH=1579286632
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/ccid
-cp COPYING %{buildroot}/usr/share/package-licenses/ccid/COPYING
-cp src/openct/LICENSE %{buildroot}/usr/share/package-licenses/ccid/src_openct_LICENSE
-cp src/towitoko/COPYING %{buildroot}/usr/share/package-licenses/ccid/src_towitoko_COPYING
+cp %{_builddir}/ccid-1.4.31/COPYING %{buildroot}/usr/share/package-licenses/ccid/9a1929f4700d2407c70b507b3b2aaf6226a9543c
+cp %{_builddir}/ccid-1.4.31/src/openct/LICENSE %{buildroot}/usr/share/package-licenses/ccid/f25c7f6146e4ac975b9e0c4fb3936a9af04d437a
+cp %{_builddir}/ccid-1.4.31/src/towitoko/COPYING %{buildroot}/usr/share/package-licenses/ccid/207a4f23aeb278d4d863854e3d3787247da1ca43
 %make_install
 ## install_append content
 mkdir -p %{buildroot}/usr/lib/udev/rules.d/
@@ -100,6 +102,6 @@ cp src/92_pcscd_ccid.rules %{buildroot}/usr/lib/udev/rules.d/
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/ccid/COPYING
-/usr/share/package-licenses/ccid/src_openct_LICENSE
-/usr/share/package-licenses/ccid/src_towitoko_COPYING
+/usr/share/package-licenses/ccid/207a4f23aeb278d4d863854e3d3787247da1ca43
+/usr/share/package-licenses/ccid/9a1929f4700d2407c70b507b3b2aaf6226a9543c
+/usr/share/package-licenses/ccid/f25c7f6146e4ac975b9e0c4fb3936a9af04d437a
