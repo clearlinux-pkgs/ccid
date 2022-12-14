@@ -5,11 +5,11 @@
 # Source0 file verified with key 0x78A1B4DFE8F9C57E (rousseau@debian.org)
 #
 Name     : ccid
-Version  : 1.4.36
-Release  : 10
-URL      : https://ccid.apdu.fr/files/ccid-1.4.36.tar.bz2
-Source0  : https://ccid.apdu.fr/files/ccid-1.4.36.tar.bz2
-Source1  : https://ccid.apdu.fr/files/ccid-1.4.36.tar.bz2.asc
+Version  : 1.5.1
+Release  : 11
+URL      : https://ccid.apdu.fr/files/ccid-1.5.1.tar.bz2
+Source0  : https://ccid.apdu.fr/files/ccid-1.5.1.tar.bz2
+Source1  : https://ccid.apdu.fr/files/ccid-1.5.1.tar.bz2.asc
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : BSD-3-Clause LGPL-2.1
@@ -51,15 +51,15 @@ license components for the ccid package.
 
 
 %prep
-%setup -q -n ccid-1.4.36
-cd %{_builddir}/ccid-1.4.36
+%setup -q -n ccid-1.5.1
+cd %{_builddir}/ccid-1.5.1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1630341252
+export SOURCE_DATE_EPOCH=1671054566
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
 export FCFLAGS="$FFLAGS -fno-lto "
@@ -76,12 +76,12 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1630341252
+export SOURCE_DATE_EPOCH=1671054566
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/ccid
-cp %{_builddir}/ccid-1.4.36/COPYING %{buildroot}/usr/share/package-licenses/ccid/9a1929f4700d2407c70b507b3b2aaf6226a9543c
-cp %{_builddir}/ccid-1.4.36/src/openct/LICENSE %{buildroot}/usr/share/package-licenses/ccid/f25c7f6146e4ac975b9e0c4fb3936a9af04d437a
-cp %{_builddir}/ccid-1.4.36/src/towitoko/COPYING %{buildroot}/usr/share/package-licenses/ccid/207a4f23aeb278d4d863854e3d3787247da1ca43
+cp %{_builddir}/ccid-%{version}/COPYING %{buildroot}/usr/share/package-licenses/ccid/9a1929f4700d2407c70b507b3b2aaf6226a9543c
+cp %{_builddir}/ccid-%{version}/src/openct/LICENSE %{buildroot}/usr/share/package-licenses/ccid/f25c7f6146e4ac975b9e0c4fb3936a9af04d437a
+cp %{_builddir}/ccid-%{version}/src/towitoko/COPYING %{buildroot}/usr/share/package-licenses/ccid/207a4f23aeb278d4d863854e3d3787247da1ca43
 %make_install
 ## install_append content
 mkdir -p %{buildroot}/usr/lib/udev/rules.d/
