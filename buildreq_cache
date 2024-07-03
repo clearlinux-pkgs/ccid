@@ -1,3 +1,6 @@
-1.5.5
-file
+1.6.0
 flex
+libusb-dev
+pkgconfig(libpcsclite)
+pkgconfig(libusb-1.0)
+zlib-dev

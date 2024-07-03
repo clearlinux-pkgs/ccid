@@ -1,5 +1,5 @@
 PKG_NAME := ccid
-URL = https://ccid.apdu.fr/files/ccid-1.5.5.tar.bz2
+URL = https://ccid.apdu.fr/files/ccid-1.6.0.tar.xz
 ARCHIVES = 
 
 include ../common/Makefile.common
